@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface TaskDao {
     long insertTask(Task task);
 
     @Query("SELECT * FROM Task WHERE id = :id")
-    Task getTaskById(Long id);
+    LiveData<Task> getTaskById(Long id);
 
     @Query("SELECT * FROM Task")
     LiveData<List<Task>> getTaskList();

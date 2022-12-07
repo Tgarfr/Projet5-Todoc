@@ -1,12 +1,14 @@
 package com.cleanup.todoc.room;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.cleanup.todoc.LiveDataTestUtil;
 import com.cleanup.todoc.database.dao.TodocDatabase;
 import com.cleanup.todoc.model.Project;
 
@@ -38,15 +40,14 @@ public class ProjectDaoTest {
     }
 
     @Test
-    public void insertAndGetProject() throws InterruptedException {
+    public void insertAndGetProjectById() throws InterruptedException {
 
         // Given
         final Project expectedProject = new Project(5L, "Projet test", 0xFFEADAD1);
 
         // When
         this.database.projectDao().insertProject(expectedProject);
-        Project actualProject = this.database.projectDao().getProjectById(expectedProject.getId());
-        // TODO Rajouter Live Data
+        Project actualProject = LiveDataTestUtil.getValue(this.database.projectDao().getProjectById(expectedProject.getId()));
 
         // Then
         assertEquals(expectedProject.getId(), actualProject.getId());
@@ -54,5 +55,34 @@ public class ProjectDaoTest {
         assertEquals(expectedProject.getColor(), actualProject.getColor());
     }
 
-    // TODO Finir les test de toute les fonctionnalités
+    @Test
+    public void insertProjectArrayAndGetAllProject() throws InterruptedException {
+
+        // Given
+        final Project[] expectedProjects = new Project[]{
+                new Project(1L, "Projet Tartampion", 0xFFEADAD1),
+                new Project(2L, "Projet Lucidia", 0xFFB4CDBA),
+                new Project(3L, "Projet Circus", 0xFFA3CED2),
+        };
+
+        // When
+        this.database.projectDao().insertProjectArray(expectedProjects);
+        Project[] actualProjects = LiveDataTestUtil.getValue(this.database.projectDao().getAllProjects());
+
+        // Then
+        boolean foundProject = false;
+        for (Project expectedProject : expectedProjects) {
+            for (Project actualProject : actualProjects) {
+                if (expectedProject.getId() == actualProject.getId()) {
+                    assertEquals(expectedProject.getId(), actualProject.getId());
+                    assertEquals(expectedProject.getName(), actualProject.getName());
+                    assertEquals(expectedProject.getColor(), actualProject.getColor());
+                    foundProject = true;
+                }
+            }
+            assertTrue(foundProject);
+            foundProject = false;
+        }
+    }
+
 }

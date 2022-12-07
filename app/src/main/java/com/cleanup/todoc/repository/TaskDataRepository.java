@@ -1,12 +1,10 @@
 package com.cleanup.todoc.repository;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDataRepository {

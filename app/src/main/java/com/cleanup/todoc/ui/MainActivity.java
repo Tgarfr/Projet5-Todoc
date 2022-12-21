@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             adapter = new TasksAdapter(taskListLiveData.getValue(), this);
         }
         else {
-            adapter = new TasksAdapter(new ArrayList<Task>(), this);
+            adapter = new TasksAdapter(new ArrayList<>(), this);
         }
 
         setContentView(R.layout.activity_main);

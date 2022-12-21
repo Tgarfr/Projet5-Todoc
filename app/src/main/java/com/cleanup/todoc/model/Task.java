@@ -162,12 +162,10 @@ public class Task {
         }
     }
 
-    @NonNull
     public long getProjectId() {
         return projectId;
     }
 
-    @NonNull
     public long getCreationTimestamp() {
         return creationTimestamp;
     }
